@@ -1,11 +1,6 @@
 ## Hotfix
 
-Hotfix is a simple utility that pushes new fixes to the end client.
-
-
-## How It Works
-
-1. You call `hotfix 
+Hotfix is a simple utility that pushes new fixes to the end client. 
 
 ## Requirements
 
