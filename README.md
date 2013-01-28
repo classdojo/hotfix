@@ -48,4 +48,17 @@ server.listen(8080);
 4. Make a change to your HTML doc, and call `hotfix push-update` in the command line to refresh all open pages.
 
 
+### Hotfix & the command line
+
+You can also use hotfix without node.js. To get started, run:
+
+```bash
+hotfix run-server --port=8080
+```
+
+### CLI Usage
+
+TODO
+
+
 
