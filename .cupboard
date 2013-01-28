@@ -1,2 +1,3 @@
 [commands]
+publish = make clean all, npm publish --force, git add -A, git commit -m "$@", git push origin master
 proj = subl .

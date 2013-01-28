@@ -1,5 +1,5 @@
 all:
-	coffee -c ./src -o ./lib
+	coffee -o lib -c src
 
 clean:
 	rm -rf lib
