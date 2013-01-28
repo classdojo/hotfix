@@ -12,5 +12,10 @@
   },
   "author": "",
   "license": "BSD",
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "outcome": "0.0.x",
+    "express": "3.1.x",
+    "plugin": "0.2.x"
+  }
 }
