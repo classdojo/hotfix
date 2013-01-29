@@ -5,4 +5,4 @@ pubnub = require "pubnub"
 ###
 
 exports.plugin = (loader) ->
-	pubnub.init loader.params "pubnub"	
+  pubnub.init loader.params "pubnub"  

@@ -12,51 +12,51 @@ pubnub = require "pubnub"
 exports.require = ["celeri", "pubsub.pubnub"]
 
 exports.plugin = (celeri, pubnubClient, loader) ->
-	
-	# command line options
-	celeri.option {
+  
+  # command line options
+  celeri.option {
 
-		command     : "push-changes",
-		description : "Pushes changes to all clients that are currently viewing the site",
+    command     : "push-changes",
+    description : "Pushes changes to all clients that are currently viewing the site",
 
-		optional    : {
+    optional    : {
 
-			config   : "Configuration file for pubnub.",
-			filter   : "mongodb-style filter for each client",
-			message  : "Message to display to the client.",
-			critical : "Critical update - user account is force refreshed."
+      config   : "Configuration file for pubnub.",
+      filter   : "mongodb-style filter for each client",
+      message  : "Message to display to the client.",
+      critical : "Critical update - user account is force refreshed."
 
-		},
+    },
 
-		defaults : {
+    defaults : {
 
-			message  : loader.params("data.message") or "New updates are available for this page.",
-			critical : loader.params("data.critical") or false
+      message  : loader.params("data.message") or "New updates are available for this page.",
+      critical : loader.params("data.critical") or false
 
-		}
-	}, (data) ->
+    }
+  }, (data) ->
 
-		# filter against the client - this maybe important incase a user is running a different version of the app ~
-		# perhaps because of a different type of browser
-		data.filter = JSON.parse(data.filter) if data.filter
-		
-		console.log "refreshing all connected clients"
+    # filter against the client - this maybe important incase a user is running a different version of the app ~
+    # perhaps because of a different type of browser
+    data.filter = JSON.parse(data.filter) if data.filter
+    
+    console.log "refreshing all connected clients"
 
-		# push the changes onto the client
+    # push the changes onto the client
 
-		pubnubClient.publish {
+    pubnubClient.publish {
 
-			channel : "hotfix_refresh",
+      channel : "hotfix_refresh",
 
-			message : {
+      message : {
 
-				text     : data.message,
-				filter   : data.filter,
-				critical : data.critical
+        text     : data.message,
+        filter   : data.filter,
+        critical : data.critical
 
-			}
+      }
 
-		}
+    }
 
 
 

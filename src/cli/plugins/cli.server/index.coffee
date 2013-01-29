@@ -9,31 +9,31 @@ hotfix  = require "../../../"
 exports.require = ["celeri"]
 
 exports.plugin = (celeri, loader) ->
-	
-	celeri.option {
+  
+  celeri.option {
 
-		command     : "server",
-		description : "Runs the hotfix http server",
+    command     : "server",
+    description : "Runs the hotfix http server",
 
-		optional    : {
+    optional    : {
 
-			port : "The http port to run hotfix on"
+      port : "The http port to run hotfix on"
 
-		},
+    },
 
-		defaults : {
+    defaults : {
 
-			port : loader.params("data.port") or 8080
-			
-		}
+      port : loader.params("data.port") or 8080
+      
+    }
 
-	}, runServer
+  }, runServer
 
 
 ###
 ###
 
 runServer = (data) ->
-	server = express()
-	hotfix.server server
-	server.listen data.port
+  server = express()
+  hotfix.server server
+  server.listen data.port
