@@ -32,7 +32,6 @@ exports.plugin = (celeri) ->
 
 
 
-
 publish = (data) ->
 	
 	data.filter = JSON.parse(data.filter) if data.filter
@@ -42,8 +41,11 @@ publish = (data) ->
 	# load in the configuration file required for pubnub
 	config = require data.config 
 
+	# NOTE - do not do this - the issue is - the default message is provided at the top
+	# so defaults will never work anyways - the only option is to load the hotfix config
+	# BEFORE the command is registered
 	# default data to send to the user can also be defined in the configuration file
-	_.extend data, config.data
+	# _.defaults data, config.data
 
 	pubNubClient = pubnub.init config.pubnub
 
