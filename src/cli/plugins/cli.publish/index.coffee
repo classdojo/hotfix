@@ -42,7 +42,6 @@ exports.plugin = (celeri, pubnubClient, loader) ->
     console.log "refreshing all connected clients"
 
     # push the changes onto the client
-
     pubnubClient.publish {
 
       channel : "hotfix_refresh",
