@@ -7,6 +7,18 @@ Hotfix is a simple utility that pushes new fixes to the end client while they're
 - [Node.js](http://nodejs.org)
 - [Pubnub](http://www.pubnub.com/)
 
+## Dev Dependencies
+
+### Testing
+
+- phantomjs - `brew install phantomjs`
+
+### Building
+
+- browserify - `npm i browserify -g`
+- closure-compiler - `brew install closure-compiler`
+- coffee-script - `npm i coffee-script -g`
+
 
 ## Installation
 

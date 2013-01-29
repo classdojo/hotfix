@@ -26,5 +26,8 @@
     "underscore": "1.4.x",
     "celeri": "0.3.x",
     "sift": "0.0.x"
+  },
+  "devDependencies": {
+    "phantom": "0.3.x"
   }
 }
