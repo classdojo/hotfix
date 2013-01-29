@@ -1,11 +1,13 @@
 sift     = require "sift"
 template = require "./template"
 
+hotfix = window.hotfix = {}
+
 
 MESSAGE_DISPLAY_TIME       = 1000 * 4
 
-# sanity check
-MIN_PAGE_REFRESH_INTERVAL = 1000 * 30
+# sanity check IF phantom is not present
+MIN_PAGE_REFRESH_INTERVAL = if typeof window.callPhantom != undefined then 0 else 1000 * 30
 
 refreshTimeout = null
 
@@ -14,7 +16,17 @@ $(document).ready () ->
   PUBNUB.subscribe {
 
     channel  : "hotfix_refresh",
+
+    connect  : () ->
+      if hotfix.onConnect 
+        hotfix.onConnect()
+
     callback : (payload) ->
+
+      # used primarily for testing
+      if hotfix.onHotFix
+        hotfix.onHotFix payload
+
 
       # stop page refresh incase a hotfix is pushed a few times before the client is ready to refresh
       clearInterval refreshTimeout
@@ -36,7 +48,10 @@ $(document).ready () ->
 
 refreshPage = (payload) ->
 
-  
+  # used primarily for testing
+  if hotfix.onDisplayMessage
+    hotfix.onDisplayMessage payload
+
   # if a filter is provided, then check against the global variables
   # to see if the filter matches - e.g: classdojo.version = 19
   if payload.filter
@@ -48,6 +63,11 @@ refreshPage = (payload) ->
 
 
   reloadPage = () ->
+
+    # used primarily for testing
+    if hotfix.onReloadPage
+      hotfix.onReloadPage payload
+
     location.reload()
 
 

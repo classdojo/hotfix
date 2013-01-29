@@ -28,6 +28,13 @@
     "sift": "0.0.x"
   },
   "devDependencies": {
-    "phantom": "0.3.x"
+    "node-phantom": "0.2.x",
+    "mocha": "1.8.x",
+    "expect.js":"0.2.x",
+    "supertest":"0.5.x",
+    "step":"0.0.x",
+    "async":"0.1.x",
+    "structr":"0.2.x",
+    "hurryup": "0.0.x"
   }
 }

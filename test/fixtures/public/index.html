@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+		<link rel="stylesheet" href="/hotfix/style.css" type="text/css">   
+		<script type="text/javascript"  src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script type="text/javascript" src="/hotfix/main.bundle.js"></script>
+		<script type="text/javascript">
+
+			function wrapCommand(name) {
+				return function(payload) {
+					console.log(name);
+					if(typeof window.callPhantom == "undefined") return;
+
+					window.callPhantom({command: name, payload: payload });
+				};
+			}
+
+
+			hotfix.onHotFix         = wrapCommand("hotFix");
+			hotfix.onConnect        = wrapCommand("connect");
+			hotfix.onReloadPage     = wrapCommand("reloadPage");
+			hotfix.onDisplayMessage = wrapCommand("displayMessage");
+
+
+
+
+		</script>
+	</head>
+	<body>
+
+		<!--div class="hotfix-notification">
+			<div class="hotfix-message">Hello World!</div><a class="hotfix-wait-button">ignore</a>
+		</div-->
+
+		<div id="pubnub" pub-key="pub-c-97969bcd-8738-401e-b311-7ddfe8b6bdfa" sub-key="sub-c-370fa04a-6a62-11e2-a9fa-12313f022c90" origin="pubsub.pubnub.com" ssl="off"></div>
+
+		<script type="text/javascript" src="http://cdn.pubnub.com/pubnub-3.1.min.js"></script>
+	</body>
+</html>
