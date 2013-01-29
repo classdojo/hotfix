@@ -11,4 +11,6 @@ module.exports = (params = {}) ->
   params(params).
   require(__dirname + "/plugins").
   load().
+
+  # return the celeri module so commands can be called
   module("celeri")
