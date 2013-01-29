@@ -2,8 +2,10 @@ sift     = require "sift"
 template = require "./template"
 
 
-MESSAGE_RELOAD_TIME       = 1000 * 4
-MAX_PAGE_REFRESH_INTERVAL = 1000
+MESSAGE_DISPLAY_TIME       = 1000 * 4
+
+# sanity check
+MIN_PAGE_REFRESH_INTERVAL = 1000 * 30
 
 
 $(document).ready () ->
@@ -17,7 +19,8 @@ $(document).ready () ->
       # at the same time - that would create a sort of DDOS attack ;)
       # TODO - use micro time for payload delivery to calculate interval AND use
       # num connections so we can carefuly tell how many users to refresh / second.
-      setTimeout refreshPage, Math.random() * MAX_PAGE_REFRESH_INTERVAL, payload
+      # Note - MIN_PAGE_REFRESH_INTERVAL is a sanitiy check to make sure the payload interval isn't too small.
+      setTimeout refreshPage, Math.random() * Math.max(MIN_PAGE_REFRESH_INTERVAL, payload.interval || 0), payload
       
   }
 
@@ -46,7 +49,7 @@ refreshPage = (payload) ->
 
   # only show a timeout if the error message is critical. Otherwise, make it a user interaction.
   if payload.critical
-    setTimeout reloadPage, MESSAGE_RELOAD_TIME
+    setTimeout reloadPage, MESSAGE_DISPLAY_TIME
   else
     msg.find(".hotfix-refresh-button").click reloadPage
     msg.find(".hotfix-ignore-button").click () ->
