@@ -21,13 +21,13 @@ There are a few ways yo use hotfix:
 
 ### Hotfix & express
 
-1. First create a dead simple server:
+1. First create a simple server:
 
 ```javascript
 var express = require("express"),
 hotfix = require("hotfix"),
 server = express();
-server.use("/hotfix.js", hotfix());
+hotfix(server);
 server.listen(8080);
 ```
 
@@ -45,7 +45,7 @@ server.listen(8080);
 ```
 
 3. Open a browser, and navigate to `http://localhost:8080`.
-4. Make a change to your HTML doc, and call `hotfix push-update` in the command line to refresh all open pages.
+4. Make a change to your HTML doc, and call `hotfix push-changes` in the command line to refresh all open pages.
 
 
 ### Hotfix & the command line
@@ -56,9 +56,39 @@ You can also use hotfix without node.js. To get started, run:
 hotfix run-server --port=8080
 ```
 
+### Tips
+
+Running a critical update that forces the user to refresh
+
+```bash
+hotfix push-changes --critical
+```
+
+Running an update against only certain clients (assuming you have something like `window.app.version` assigned)
+
+```bash
+hotfix push-changes --filter="{\"app.version\": 19 }"
+```
+
+Customizing the end user message
+
+```bash
+hotfix push-changes --message="This page is about to refresh due to connectivity issues"
+```
+
 ### CLI Usage
 
-TODO
+```bash
+Usage: [command] --arg=value --arg2
+
+Help:
+  help                        Show help menu
+  [cmd] help                  Show command help menu
+
+Options:
+  run-server                  Runs the hotfix http server
+  push-changes                Pushes changes to all clients that are currently viewing the site
+```
 
 
 
