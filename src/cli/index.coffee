@@ -1,6 +1,10 @@
 plugin = require "plugin"
 _ = require "underscore"
 
+###
+ Main application entry point. This module loads everything required for the CLI
+###
+
 module.exports = (params = {}) ->
 	
 	plugin().

@@ -2,12 +2,10 @@ template = require "./template"
 sift = require "sift"
 
 
-# all clients MUST refresh the page within this given time interval
+MESSAGE_RELOAD_TIME       = 1000 * 4
 MAX_PAGE_REFRESH_INTERVAL = 1000
-MESSAGE_RELOAD_TIME = 1000 * 4
 
 
-# on DOM ready, listen for hotfix_refresh
 $(document).ready () ->
 
 	PUBNUB.subscribe {

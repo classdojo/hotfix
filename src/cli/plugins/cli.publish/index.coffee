@@ -1,6 +1,6 @@
-fs = require "fs"
+_      = require "underscore"
+fs     = require "fs"
 pubnub = require "pubnub"
-_ = require "underscore"
 
 
 ###
@@ -9,8 +9,9 @@ _ = require "underscore"
 ###
 
 
-exports.require = ["celeri"]
-exports.plugin = (celeri) ->
+exports.require = ["celeri", "pubsub.pubnub"]
+
+exports.plugin = (celeri, pubnubClient, loader) ->
 	
 	# command line options
 	celeri.option {
@@ -23,44 +24,30 @@ exports.plugin = (celeri) ->
 			"filter": "mongodb-style filter for each client"
 		},
 		defaults: {
-			"config": "/usr/local/etc/hotfix/config.json",
-			"critical": false
-			"message": "New updates are available for this page.",
-			"messagePrefix": "This page needs to be refreshed"
+			"critical": loader.params("data.critical") or false,
+			"message": loader.params("data.message") or "New updates are available for this page."
 		}
-	}, publish
+	}, (data) ->
 
+		# filter against the client - this maybe important incase a user is running a different version of the app ~
+		# perhaps because of a different type of browser
+		data.filter = JSON.parse(data.filter) if data.filter
+		
+		console.log "refreshing all connected clients"
 
+		# push the changes onto the client
+		# TODO - bleh - this needs to be in a separate module, and config
+		# needs to be loaded there
 
-publish = (data) ->
-	
-	data.filter = JSON.parse(data.filter) if data.filter
-
-	console.log "refreshing all connected clients"
-	
-	# load in the configuration file required for pubnub
-	config = require data.config 
-
-	# NOTE - do not do this - the issue is - the default message is provided at the top
-	# so defaults will never work anyways - the only option is to load the hotfix config
-	# BEFORE the command is registered
-	# default data to send to the user can also be defined in the configuration file
-	# _.defaults data, config.data
-
-	pubNubClient = pubnub.init config.pubnub
-
-	# push the changes onto the client
-	# TODO - bleh - this needs to be in a separate module, and config
-	# needs to be loaded there
-
-	pubNubClient.publish {
-		channel: "hotfix_refresh",
-		message: {
-			critical: data.critical,
-			text: (if config.messagePrefix then "#{config.messagePrefix}: " else "") + data.message,
-			filter: data.filter
+		pubnubClient.publish {
+			channel: "hotfix_refresh",
+			message: {
+				critical: data.critical,
+				text: data.message,
+				filter: data.filter
+			}
 		}
-	}
+
 
 
 

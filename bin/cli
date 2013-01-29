@@ -1,11 +1,24 @@
 #!/usr/bin/env node
-/*var optimist = require("optimist"),
-argv = optimist.
-usage("Usage: $0, [command] --config=[configPath]").
-demand(["config"]).
-default("config", "/usr/local/etc/hotfix/config.json").
-argv;
+var optimist = require("optimist"),
+_ = require("underscore"),
+argv = optimist.argv;
 
-console.log(argv);*/
 
-require("../").cli().parse(process.argv);
+//set the default config if it doesn't exist
+_.defaults(argv, {
+	config: "/usr/local/etc/hotfix/config.json"
+});
+
+var command = argv._[0],
+
+//initialize the CLI with the config stored on disc - it must be here
+cli = require("../").cli(require(argv.config));
+
+
+//execute the command
+if(!cli.emit(command, argv)) {
+
+	//if false is returned, the command doesn't exist.
+	console.error("\nCommand \"%s\" does not exist".bold, command);
+	cli.help();
+}

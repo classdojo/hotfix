@@ -1,21 +1,29 @@
 express = require "express"
 hotfix  = require "../../../"
 
+
+###
+ Runs a stand-alone http server
+###
+
 exports.require = ["celeri"]
-exports.plugin = (celeri) ->
+
+exports.plugin = (celeri, loader) ->
 	
-	# command line options
 	celeri.option {
-		command: "run-server",
+		command: "server",
 		description: "Runs the hotfix http server",
 		optional: {
 			"port": "The http port to run hotfix on"
 		},
 		defaults: {
-			"port": 8080
+			"port": loader.params("port") or 8080
 		}
 	}, runServer
 
+
+###
+###
 
 runServer = (data) ->
 	server = express()

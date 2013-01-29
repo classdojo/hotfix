@@ -1,6 +1,9 @@
 fs = require "fs"
 express = require "express"
 
+###
+ Express plugin
+###
 
 module.exports = (httpServer) ->
 
