@@ -91,5 +91,30 @@ Options:
   push-changes                Pushes changes to all clients that are currently viewing the site
 ```
 
+#### run-server command
+
+```
+Runs the hotfix http server
+
+Usage: run-server
+
+Optional Flags:
+  --port=8080                 The http port to run hotfix on
+```
+
+#### push-changes command
+
+```
+Pushes changes to all clients that are currently viewing the site
+
+Usage: push-changes
+
+Optional Flags:
+  --filter                    mongodb-style filter for each client
+  --message=New updates a...  Message to display to the client.
+  --critical                  Critical update - user account is force refreshed.
+  --config=/usr/local/etc...  Configuration file for pubnub.
+```
+
 
 
