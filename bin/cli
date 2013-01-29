@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+/*var optimist = require("optimist"),
+argv = optimist.
+usage("Usage: $0, [command] --config=[configPath]").
+demand(["config"]).
+default("config", "/usr/local/etc/hotfix/config.json").
+argv;
+
+console.log(argv);*/
+
+require("../").cli().parse(process.argv);

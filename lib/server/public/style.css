@@ -1,0 +1,14 @@
+.hotfix-message {
+	background-color: #999;
+	padding: 10px;
+	position: fixed;
+	z-index: 999;
+}
+
+
+.hotfix-wait-button, .hotfix-refresh-button {
+	padding: 10px;
+	background-color: #333;
+	color: #FFF;
+	text-decoration: none;
+}

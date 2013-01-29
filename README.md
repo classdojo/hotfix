@@ -5,7 +5,7 @@ Hotfix is a simple utility that pushes new fixes to the end client.
 ## Requirements
 
 - [Node.js](http://nodejs.org)
-- [Pubnub](http://www.pubnub.com/) or [pusher](http://pusher.com/)
+- [Pubnub](http://www.pubnub.com/)
 
 ## Installation
 
@@ -27,7 +27,7 @@ There are a few ways yo use hotfix:
 var express = require("express"),
 hotfix = require("hotfix"),
 server = express();
-server.use(hotfix());
+server.use("/hotfix.js", hotfix());
 server.listen(8080);
 ```
 
