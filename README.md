@@ -64,13 +64,13 @@ Running a critical update that forces the user to refresh
 hotfix push-changes --critical
 ```
 
-Running an update against only certain clients (assuming you have something like `window.app.version` assigned)
+Running an update against only certain clients (assuming you have something like `window.app.version` assigned). Note that all mongodb-like queries are accepted since the hotfix client uses [sift](crcn/sift.js).
 
 ```bash
 hotfix push-changes --filter="{\"app.version\": 19 }"
 ```
 
-Customizing the end user message
+Customizing the end-user message
 
 ```bash
 hotfix push-changes --message="This page is about to refresh due to connectivity issues"
@@ -78,7 +78,7 @@ hotfix push-changes --message="This page is about to refresh due to connectivity
 
 ### CLI Usage
 
-```bash
+```
 Usage: [command] --arg=value --arg2
 
 Help:
