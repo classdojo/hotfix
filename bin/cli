@@ -9,16 +9,16 @@ _.defaults(argv, {
 	config: "/usr/local/etc/hotfix/config.json"
 });
 
-var command = argv._[0],
+var command = argv._,
 
 //initialize the CLI with the config stored on disc - it must be here
 cli = require("../").cli(require(argv.config));
 
 
 //execute the command
-if(!cli.emit(command, argv)) {
+if(!cli.emit(command.join(" "), argv)) {
 
 	//if false is returned, the command doesn't exist.
-	console.error("\nCommand \"%s\" does not exist".bold, command);
+	console.error("\nCommand \"%s\" does not exist".bold, command[0]);
 	cli.help();
 }

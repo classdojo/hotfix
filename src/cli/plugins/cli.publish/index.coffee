@@ -15,7 +15,7 @@ exports.plugin = (celeri, pubnubClient, loader) ->
   
   celeri.option {
 
-    command     : "push-changes",
+    command     : "push OR push-changes",
     description : "Pushes changes to all clients that are currently viewing the site",
 
     optional    : {
@@ -23,16 +23,20 @@ exports.plugin = (celeri, pubnubClient, loader) ->
       config   : "Configuration file for pubnub.",
       filter   : "mongodb-style filter for each client",
       message  : "Message to display to the client.",
+      interval : "The interval in MS to randomize page refreshes",
       critical : "Critical update - user account is force refreshed."
 
     },
 
-    defaults : {
+    # fetch the defaults from the passed config, or used hard-coded values
+    defaults : _.extend {
 
-      message  : loader.params("data.message")  or "New updates are available for this page.",
-      critical : loader.params("data.critical") or false
+      message  : "New updates are available for this page.",
+      interval : 1000 * 60,
+      critical : false
 
-    }
+    }, loader.params("data")
+
   }, (data) ->
 
     # filter against the client - this maybe important incase a user is running a different version of the app ~
@@ -50,10 +54,10 @@ exports.plugin = (celeri, pubnubClient, loader) ->
 
         text     : data.message,
         filter   : data.filter,
-        critical : data.critical
+        critical : data.critical,
+        interval : data.interval
 
       }
-
     }
 
 
