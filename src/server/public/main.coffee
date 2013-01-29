@@ -1,4 +1,5 @@
 domready = require "domready"
+template = require "./template"
 
 
 # all clients MUST refresh the page within this given time interval
@@ -20,6 +21,12 @@ domready () ->
 	}
 
 
+	showMessage {
+		text: "hello world!",
+		critical: true
+	}
+
+
 
 ###
  refreshes the page
@@ -27,5 +34,10 @@ domready () ->
 
 refreshPage = (payload) ->
 	console.log JSON.stringify payload
+
+
+showMessage = (data) ->
+	
+
 
 

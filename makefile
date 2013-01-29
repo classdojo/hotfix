@@ -5,6 +5,7 @@ B_BUNDLE=$(B_PUB_DIR)/$(B_NAME).bundle.js
 
 all:
 	cp -R ./src ./lib
+	find ./lib -name "*.coffee" -exec rm {} \;
 	coffee -o lib -c src
 	browserify $(B_SRC) -o $(B_BUNDLE)
 
