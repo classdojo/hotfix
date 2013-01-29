@@ -7,6 +7,7 @@ MESSAGE_DISPLAY_TIME       = 1000 * 4
 # sanity check
 MIN_PAGE_REFRESH_INTERVAL = 1000 * 30
 
+refreshTimeout = null
 
 $(document).ready () ->
 
@@ -15,12 +16,15 @@ $(document).ready () ->
     channel  : "hotfix_refresh",
     callback : (payload) ->
 
+      # stop page refresh incase a hotfix is pushed a few times before the client is ready to refresh
+      clearInterval refreshTimeout
+
       # randomize page reload time - we don't want all clients refreshing
       # at the same time - that would create a sort of DDOS attack ;)
       # TODO - use micro time for payload delivery to calculate interval AND use
       # num connections so we can carefuly tell how many users to refresh / second.
       # Note - MIN_PAGE_REFRESH_INTERVAL is a sanitiy check to make sure the payload interval isn't too small.
-      setTimeout refreshPage, Math.random() * Math.max(MIN_PAGE_REFRESH_INTERVAL, payload.interval || 0), payload
+      refreshTimeout = setTimeout refreshPage, Math.random() * Math.max(MIN_PAGE_REFRESH_INTERVAL, payload.interval || 0), payload
       
   }
 
