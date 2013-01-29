@@ -65,7 +65,7 @@ Running a critical update that forces the user to refresh
 hotfix push-changes --critical
 ```
 
-Running an update against only certain clients (assuming you have something like `window.app.version` assigned). Note that all mongodb-like queries are accepted since the hotfix client uses [sift](crcn/sift.js).
+Running an update against only certain clients (assuming you have something like `window.app.version` assigned). Note that all mongodb-like queries are accepted since the hotfix client uses [sift](/crcn/sift.js).
 
 ```bash
 hotfix push-changes --filter="{\"app.version\": 19 }"
