@@ -17,9 +17,9 @@ npm i hotfix -g
 
 ## Usage
 
-There are a few ways yo use hotfix:
+There are a few ways to use hotfix:
 
-### Hotfix & express
+### Hotfix & Express
 
 1. First create a simple server:
 
@@ -27,7 +27,7 @@ There are a few ways yo use hotfix:
 var express = require("express"),
 hotfix = require("hotfix"),
 server = express();
-hotfix(server);
+hotfix.server(server);
 server.listen(8080);
 ```
 
@@ -36,7 +36,7 @@ server.listen(8080);
 ```html
 <html>
   <head>
-    <script src="/hotfix.js"></script>
+    <script src="/hotfix/main.bundle.js"></script>
   </head>
   <body>
     Hello World!
