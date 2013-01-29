@@ -13,7 +13,6 @@ exports.require = ["celeri", "pubsub.pubnub"]
 
 exports.plugin = (celeri, pubnubClient, loader) ->
   
-  # command line options
   celeri.option {
 
     command     : "push-changes",
@@ -30,7 +29,7 @@ exports.plugin = (celeri, pubnubClient, loader) ->
 
     defaults : {
 
-      message  : loader.params("data.message") or "New updates are available for this page.",
+      message  : loader.params("data.message")  or "New updates are available for this page.",
       critical : loader.params("data.critical") or false
 
     }
