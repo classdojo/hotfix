@@ -25,7 +25,6 @@
     "coffee-script": "1.4.x",
     "underscore": "1.4.x",
     "celeri": "0.3.x",
-    "domready": "0.2.x",
     "sift": "0.0.x"
   }
 }

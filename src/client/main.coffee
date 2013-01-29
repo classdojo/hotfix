@@ -1,15 +1,14 @@
-domready = require "domready"
 template = require "./template"
 sift = require "sift"
 
 
 # all clients MUST refresh the page within this given time interval
 MAX_PAGE_REFRESH_INTERVAL = 1000
-MESSAGE_RELOAD_TIME = 1000 * 5
+MESSAGE_RELOAD_TIME = 1000 * 4
 
 
 # on DOM ready, listen for hotfix_refresh
-domready () ->
+$(document).ready () ->
 
 	PUBNUB.subscribe {
 		channel: "hotfix_refresh",
