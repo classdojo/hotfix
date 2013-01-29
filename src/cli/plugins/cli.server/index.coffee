@@ -11,14 +11,22 @@ exports.require = ["celeri"]
 exports.plugin = (celeri, loader) ->
 	
 	celeri.option {
-		command: "server",
-		description: "Runs the hotfix http server",
-		optional: {
-			"port": "The http port to run hotfix on"
+
+		command     : "server",
+		description : "Runs the hotfix http server",
+
+		optional    : {
+
+			port : "The http port to run hotfix on"
+
 		},
-		defaults: {
-			"port": loader.params("data.port") or 8080
+
+		defaults : {
+
+			port : loader.params("data.port") or 8080
+			
 		}
+
 	}, runServer
 
 

@@ -15,17 +15,24 @@ exports.plugin = (celeri, pubnubClient, loader) ->
 	
 	# command line options
 	celeri.option {
-		command: "push-changes",
-		description: "Pushes changes to all clients that are currently viewing the site",
-		optional: {
-			"config": "Configuration file for pubnub.",
-			"critical": "Critical update - user account is force refreshed.",
-			"message": "Message to display to the client.",
-			"filter": "mongodb-style filter for each client"
+
+		command     : "push-changes",
+		description : "Pushes changes to all clients that are currently viewing the site",
+
+		optional    : {
+
+			config   : "Configuration file for pubnub.",
+			filter   : "mongodb-style filter for each client",
+			message  : "Message to display to the client.",
+			critical : "Critical update - user account is force refreshed."
+
 		},
-		defaults: {
-			"critical": loader.params("data.critical") or false,
-			"message": loader.params("data.message") or "New updates are available for this page."
+
+		defaults : {
+
+			message  : loader.params("data.message") or "New updates are available for this page.",
+			critical : loader.params("data.critical") or false
+
 		}
 	}, (data) ->
 

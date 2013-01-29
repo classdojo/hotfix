@@ -9,14 +9,16 @@ MAX_PAGE_REFRESH_INTERVAL = 1000
 $(document).ready () ->
 
 	PUBNUB.subscribe {
-		channel: "hotfix_refresh",
-		callback: (payload) ->
+
+		channel  : "hotfix_refresh",
+		callback : (payload) ->
 
 			# randomize page reload time - we don't want all clients refreshing
 			# at the same time - that would create a sort of DDOS attack ;)
 			# TODO - use micro time for payload delivery to calculate interval AND use
 			# num connections so we can carefuly tell how many users to refresh / second.
 			setTimeout refreshPage, Math.random() * MAX_PAGE_REFRESH_INTERVAL, payload
+			
 	}
 
 

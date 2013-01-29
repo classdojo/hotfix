@@ -1,3 +1,4 @@
 celeri = require "celeri"
 
-exports.plugin = () -> celeri
+exports.plugin = () -> 
+	celeri
