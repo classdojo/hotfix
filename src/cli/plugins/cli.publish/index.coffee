@@ -47,12 +47,17 @@ exports.plugin = (celeri, pubnubClient, loader) ->
 		# needs to be loaded there
 
 		pubnubClient.publish {
-			channel: "hotfix_refresh",
-			message: {
-				critical: data.critical,
-				text: data.message,
-				filter: data.filter
+
+			channel : "hotfix_refresh",
+
+			message : {
+
+				text     : data.message,
+				filter   : data.filter,
+				critical : data.critical
+				
 			}
+
 		}
 
 
