@@ -1,5 +1,5 @@
-express = require "express"
 hotfix  = require "../../../"
+express = require "express"
 
 
 ###
