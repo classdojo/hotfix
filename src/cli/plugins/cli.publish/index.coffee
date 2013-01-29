@@ -43,8 +43,6 @@ exports.plugin = (celeri, pubnubClient, loader) ->
 		console.log "refreshing all connected clients"
 
 		# push the changes onto the client
-		# TODO - bleh - this needs to be in a separate module, and config
-		# needs to be loaded there
 
 		pubnubClient.publish {
 
@@ -55,7 +53,7 @@ exports.plugin = (celeri, pubnubClient, loader) ->
 				text     : data.message,
 				filter   : data.filter,
 				critical : data.critical
-				
+
 			}
 
 		}
