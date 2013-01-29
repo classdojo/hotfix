@@ -1,11 +1,12 @@
 ## Hotfix
 
-Hotfix is a simple utility that pushes new fixes to the end client. 
+Hotfix is a simple utility that pushes new fixes to the end client while they're still on your site.
 
 ## Requirements
 
 - [Node.js](http://nodejs.org)
 - [Pubnub](http://www.pubnub.com/)
+
 
 ## Installation
 
