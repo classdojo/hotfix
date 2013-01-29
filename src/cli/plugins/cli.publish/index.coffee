@@ -19,7 +19,8 @@ exports.plugin = (celeri) ->
 		optional: {
 			"config": "Configuration file for pubnub.",
 			"critical": "Critical update - user account is force refreshed.",
-			"message": "Message to display to the client."
+			"message": "Message to display to the client.",
+			"filter": "mongodb-style filter for each client"
 		},
 		defaults: {
 			"config": "/usr/local/etc/hotfix/config.json",
@@ -33,6 +34,8 @@ exports.plugin = (celeri) ->
 
 
 publish = (data) ->
+	
+	data.filter = JSON.parse(data.filter) if data.filter
 
 	console.log "refreshing all connected clients"
 	
@@ -52,7 +55,8 @@ publish = (data) ->
 		channel: "hotfix_refresh",
 		message: {
 			critical: data.critical,
-			text: (if config.messagePrefix then "#{config.messagePrefix}: " else "") + data.message
+			text: (if config.messagePrefix then "#{config.messagePrefix}: " else "") + data.message,
+			filter: data.filter
 		}
 	}
 

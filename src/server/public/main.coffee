@@ -1,5 +1,6 @@
 domready = require "domready"
 template = require "./template"
+sift = require "sift"
 
 
 # all clients MUST refresh the page within this given time interval
@@ -28,6 +29,15 @@ domready () ->
 ###
 
 refreshPage = (payload) ->
+
+	
+	# if a filter is provided, then check against the global variables
+	# to see if the filter matches - e.g: classdojo.version = 19
+	if payload.filter
+		if sift(payload.filter, [window]).length is 0
+			return 
+
+
 	msg = showMessage payload
 
 
@@ -44,7 +54,12 @@ refreshPage = (payload) ->
 			msg.animate { top: "-100px" }
 
 
+
+###
+###
+
 showMessage = (data) ->
+
 	msg = $(template)
 
 	# place the message off-screen so we can add a nice animation
