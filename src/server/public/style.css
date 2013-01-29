@@ -17,10 +17,13 @@ body {
 	float: left;
 }
 
+.hotfix-buttons {
+	margin-right: 70px;
+}
 
-.hotfix-wait-button, .hotfix-refresh-button {
+.hotfix-ignore-button, .hotfix-refresh-button {
 	padding: 5px;
-	margin-right: 80px;
+	margin-right: 10px;
 	background-color: #333;
 	color: #FFF;
 	text-decoration: none;

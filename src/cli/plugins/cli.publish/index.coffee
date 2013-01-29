@@ -24,7 +24,7 @@ exports.plugin = (celeri) ->
 		defaults: {
 			"config": "/usr/local/etc/hotfix/config.json",
 			"critical": false
-			"message": "",
+			"message": "New updates are available for this page.",
 			"messagePrefix": "This page needs to be refreshed"
 		}
 	}, publish
