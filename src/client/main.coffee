@@ -1,5 +1,5 @@
+sift     = require "sift"
 template = require "./template"
-sift = require "sift"
 
 
 MESSAGE_RELOAD_TIME       = 1000 * 4
