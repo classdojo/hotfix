@@ -1,5 +1,13 @@
 fs = require "fs"
 pubnub = require "pubnub"
+_ = require "underscore"
+
+
+###
+ This module is accessible throught the command line, and allows for changes
+ to be sent to any connected client to the pubnub hotfix_refresh channel
+###
+
 
 exports.require = ["celeri"]
 exports.plugin = (celeri) ->
@@ -16,6 +24,8 @@ exports.plugin = (celeri) ->
 		defaults: {
 			"config": "/usr/local/etc/hotfix/config.json",
 			"critical": false
+			"message": "",
+			"messagePrefix": "This page needs to be refreshed"
 		}
 	}, publish
 
@@ -29,6 +39,9 @@ publish = (data) ->
 	# load in the configuration file required for pubnub
 	config = require data.config 
 
+	# default data to send to the user can also be defined in the configuration file
+	_.extend data, config.data
+
 	pubNubClient = pubnub.init config.pubnub
 
 	# push the changes onto the client
@@ -38,7 +51,8 @@ publish = (data) ->
 	pubNubClient.publish {
 		channel: "hotfix_refresh",
 		message: {
-			critical: data.critical
+			critical: data.critical,
+			text: (if config.messagePrefix then "#{config.messagePrefix}: " else "") + data.message
 		}
 	}
 

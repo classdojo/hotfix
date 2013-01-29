@@ -1,14 +1,29 @@
-.hotfix-message {
+body {
+	padding: 0px;
+	margin: 0px;
+}
+
+.hotfix-notification {
 	background-color: #999;
 	padding: 10px;
 	position: fixed;
 	z-index: 999;
+	width: 100%;
+	font-family: Helvetica;
+}
+
+.hotfix-message {
+	padding: 5px;
+	float: left;
 }
 
 
 .hotfix-wait-button, .hotfix-refresh-button {
-	padding: 10px;
+	padding: 5px;
+	margin-right: 80px;
 	background-color: #333;
 	color: #FFF;
 	text-decoration: none;
+	float: right;
+	cursor: pointer;
 }
