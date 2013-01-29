@@ -17,7 +17,7 @@ exports.plugin = (celeri, loader) ->
 			"port": "The http port to run hotfix on"
 		},
 		defaults: {
-			"port": loader.params("port") or 8080
+			"port": loader.params("data.port") or 8080
 		}
 	}, runServer
 
