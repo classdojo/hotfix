@@ -4,7 +4,7 @@ outcome     = require("outcome"),
 async       = require("async"),
 step        = require("step"),
 EventEmitter = require("events").EventEmitter,
-HotfixClient = require("./fixtures/client"),
+HotfixPh     = require("./fixtures/phantom"),
 hotfixServer = require("./fixtures/server"),
 hurryUp      = require("hurryup"),
 hotfix       = require("../");
@@ -13,86 +13,62 @@ hotfix       = require("../");
 var on = outcome.e(function(err) {
   console.error(err);
 }),
-NUM_CLIENTS = 20,
+NUM_CLIENTS = 5,
 SERVER_PORT = 8081,
 INTERVAL    = 1000 * 5;
 
-step(
 
-  /**
-   * first, we need to initialize the hotfix test server
-   */
+describe("Hotfix", function() {
 
+    var clients, phantom, o = outcome;
 
-  function() {
-    hotfixServer.init(SERVER_PORT);
-    this();
-  },
-
-  /** 
-   * open up all the clients
-   */
+    it("Should connect to the server successfuly", function() {
+      hotfixServer.init(SERVER_PORT);
+    });
 
 
-  on.s(function() {
-
-    console.log("building %d phantom clients", NUM_CLIENTS);
-
-    //need to provide an array filled with values - new Array(NUM_CLIENTS) doesn't work for async.map
-    // - also we use an array since async.map is an elegant method of asynchrously creating phantomjs clients
-    for(var i = NUM_CLIENTS, stack = []; i--;) stack.push(i);
-
-
-    async.map(stack, function(n, next) {
-      new HotfixClient({ open : "http://localhost:" + SERVER_PORT }).load(next);
-    }, this);
-  }),
-
-  /**
-   */
-
-  on.s(function(clients) {
-
-    console.log("pushing hotfix changes with max interval of %d", INTERVAL);
+    it("Should create a lot of phantom clients", function(done) {
+      phantom = new HotfixPh(NUM_CLIENTS);
+      phantom.load("http://localhost:" + SERVER_PORT, o.e(done).s(function(c) {
+        clients = c;
+        done();
+      }));
+    });
 
 
-    //these credentials were created using a test account for pubnub + 10minutemail
-    hotfix.cli({
-      pubnub: {
-        publish_key: "pub-c-97969bcd-8738-401e-b311-7ddfe8b6bdfa",
-        subscribe_key: "sub-c-370fa04a-6a62-11e2-a9fa-12313f022c90"
-      }
-    }).emit("push-changes", { interval: INTERVAL, critical: true });
+    it("Should push lots of hotfixes", function() {
 
-    //start the tests
-    this(null, clients);
-  }),
-
-  /**
-   */
-
-  on.s(function(clients) {
-    async.map(clients, testClient, this);
-  }),
+      //these credentials were created using a test account for pubnub + 10minutemail
+      hotfix.cli({
+        pubnub: {
+          publish_key: "pub-c-97969bcd-8738-401e-b311-7ddfe8b6bdfa",
+          subscribe_key: "sub-c-370fa04a-6a62-11e2-a9fa-12313f022c90"
+        }
+      }).emit("push-changes", { interval: INTERVAL, critical: true });
 
 
-  /**
-   */
+    });
 
-  on.s(function() {
-    console.log("all clients reloaded successfuly");
-  })
 
-);
+    it("Should have many updated clients", function(done) {
+      async.map(clients, testClient, done);
+    });
+
+
+    it("Should kill phantom", function() {
+      phantom.kill();
+    });
+});
 
 
 
 function testClient(client, next) {
 
+
   var on = outcome.e(function(err) {
-    console.log("ERR")
     next(err);
   });
+
 
   step(
 
@@ -101,7 +77,7 @@ function testClient(client, next) {
      */
 
     function() {
-      hurryUp(client.once, 2000).call(client, "hotFix", this);
+      hurryUp(client.once).call(client, "hotFix", this);
     },
 
     /**
@@ -110,7 +86,7 @@ function testClient(client, next) {
 
     on.s(function() {
       //timeout with some padding to display the message
-      hurryUp(client.once, INTERVAL + 1000 * 2).call(client, "displayMessage", this);
+      hurryUp(client.once).call(client, "displayMessage", this);
     }),
 
     /**
@@ -118,7 +94,7 @@ function testClient(client, next) {
      */
 
     on.s(function(payload) {
-      hurryUp(client.once, 10000).call(client, "reloadPage", this);
+      hurryUp(client.once).call(client, "reloadPage", this);
     }),
 
 
@@ -127,7 +103,7 @@ function testClient(client, next) {
      */
 
     on.s(function() {
-      hurryUp(client.once, 1000 * 3).call(client, "connect", this);
+      hurryUp(client.once).call(client, "connect", this);
     }),
 
 
@@ -135,9 +111,8 @@ function testClient(client, next) {
      */
 
     on.s(function() {
-      console.log("SUCCESS!")
       next()
     })
-
   );
+
 }

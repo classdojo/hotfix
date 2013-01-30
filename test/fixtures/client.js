@@ -11,8 +11,9 @@ module.exports = structr(EventEmitter, {
   /**
    */
 
-  "__construct": function(ops) {
-    this.open = ops.open;
+  "__construct": function(open, ph) {
+    this.open = open;
+    this.phantom = ph;
   },
 
   /** 
@@ -23,11 +24,8 @@ module.exports = structr(EventEmitter, {
     self   = this;
 
     step(
-      function() {
-        phantom.create(this);
-      },
       on.s(function(ph) {
-        ph.createPage(this);
+        self.phantom.createPage(this);
       }),
       on.s(function(page) {
         self.page = page;
@@ -37,15 +35,16 @@ module.exports = structr(EventEmitter, {
         if(status != "success") return this(new Error("status returned is " + status));
         self._listenForEvents();
 
-
         //wait for connect, but timeout after 5 seconds
-        hurryUp(self.once, 1000 * 5).call(self, "connect", this);
+        hurryUp(self.once).call(self, "connect", this);
         
       }),
       on.s(function() {
         callback(null, self);
       })
     );
+
+    return this;
   },
 
   /**
@@ -59,5 +58,9 @@ module.exports = structr(EventEmitter, {
     page.onCallback = function(data) {
       self.emit(data.command, null, data.payload);
     }
+  },
+
+  "kill": function() {
+    self.phantom.exit();
   }
 });
