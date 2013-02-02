@@ -10,9 +10,12 @@ mkdirp  = require "mkdirp"
 module.exports = (httpServer, options = {}) ->
   
 
+  if not options.route
+    options.route = "/hotfix"
+
   # place the public dependencies in a namespace so there are no file name 
   # collisions
-  httpServer.use "/hotfix/", express.static(__dirname + "/../client/")
+  httpServer.use options.route, express.static(__dirname + "/../client/")
 
   options.server    = httpServer
   options.configDir = "/usr/local/etc/hotfix"

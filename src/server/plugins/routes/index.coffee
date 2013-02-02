@@ -10,6 +10,7 @@ exports.plugin = (authMiddleware, loader) ->
 
   server    = loader.params "server"
   configDir = loader.params "configDir"
+  route     = loader.params "route"
 
   # info about the current version of hotfix
   infoPath  = "#{configDir}/info.json"
@@ -17,7 +18,7 @@ exports.plugin = (authMiddleware, loader) ->
   ###
   ###
 
-  server.get "/hotfix/info.json", (req, res) ->
+  server.get "#{route}/info.json", (req, res) ->
 
     o = outcome.e (err) ->
       res.send vine.error err
@@ -28,8 +29,8 @@ exports.plugin = (authMiddleware, loader) ->
 
   ###
   ###
-  
-  server.post "/hotfix/info.json", express.bodyParser(), authMiddleware, (req, res) ->
+
+  server.post "#{route}/info.json", express.bodyParser(), authMiddleware, (req, res) ->
 
     info = req.body
 

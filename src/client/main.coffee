@@ -22,7 +22,7 @@ $(document).ready () ->
 
 
 
-  setInterval checkForUpdates, 1000, host
+  setInterval checkForUpdates, MIN_PAGE_REFRESH_INTERVAL, host
   checkForUpdates host
   
  

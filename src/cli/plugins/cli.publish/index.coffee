@@ -25,7 +25,7 @@ exports.plugin = (celeri, loader) ->
       message  : "Message to display to the client.",
       interval : "The interval in MS to randomize page refreshes",
       critical : "Critical update - user account is force refreshed.",
-      host     : "The hotfix host"
+      gateway  : "The hotfix gateway"
       key      : "The hotfix host key"
 
     },
@@ -48,7 +48,7 @@ exports.plugin = (celeri, loader) ->
     console.log "refreshing all connected clients"
 
     request.post {
-      url: "#{data.host}/hotfix/info.json?key=" + data.key,
+      url: "#{data.gateway}/info.json?key=" + data.key,
       json: {
         message: data.message,
         interval: data.interval,
