@@ -21,14 +21,14 @@
     "express": "3.1.x",
     "plugin": "0.2.x",
     "optimist": "0.3.x",
-    "pubnub": "3.3.x",
     "coffee-script": "1.4.x",
     "underscore": "1.4.x",
     "celeri": "0.3.x",
     "sift": "0.0.x",
     "vine": "0.1.x",
     "comerr": "0.0.x",
-    "mkdirp": "0.3.x"
+    "mkdirp": "0.3.x",
+    "request": "2.12.x"
   },
   "devDependencies": {
     "node-phantom": "0.2.x",
