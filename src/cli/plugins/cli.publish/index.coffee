@@ -1,6 +1,6 @@
 _      = require "underscore"
 fs     = require "fs"
-pubnub = require "pubnub"
+request = require "request"
 
 
 ###
@@ -9,9 +9,9 @@ pubnub = require "pubnub"
 ###
 
 
-exports.require = ["celeri", "pubsub.pubnub"]
+exports.require = ["celeri"]
 
-exports.plugin = (celeri, pubnubClient, loader) ->
+exports.plugin = (celeri, loader) ->
   
   celeri.option {
 
@@ -24,7 +24,9 @@ exports.plugin = (celeri, pubnubClient, loader) ->
       filter   : "mongodb-style filter for each client",
       message  : "Message to display to the client.",
       interval : "The interval in MS to randomize page refreshes",
-      critical : "Critical update - user account is force refreshed."
+      critical : "Critical update - user account is force refreshed.",
+      host     : "The hotfix host"
+      key      : "The hotfix host key"
 
     },
 
@@ -45,21 +47,16 @@ exports.plugin = (celeri, pubnubClient, loader) ->
     
     console.log "refreshing all connected clients"
 
-    # push the changes onto the client
-    pubnubClient.publish {
-
-      channel : "hotfix_refresh",
-
-      message : {
-
-        text     : data.message,
-        filter   : data.filter,
-        critical : data.critical,
-        interval : data.interval
-
+    request.post {
+      url: "#{data.host}/hotfix/info.json?key=" + data.key,
+      json: {
+        message: data.message,
+        interval: data.interval,
+        critical: data.critical,
+        filter: data.filter
       }
-    }
-
+    }, (e, r, b) ->
+      console.log b
 
 
 

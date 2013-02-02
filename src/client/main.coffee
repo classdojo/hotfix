@@ -4,41 +4,42 @@ template = require "./template"
 hotfix = window.hotfix = {}
 
 
-MESSAGE_DISPLAY_TIME       = 1000 * 4
+MESSAGE_DISPLAY_TIME       = 1000 * 3
 
 # sanity check IF phantom is not present
-MIN_PAGE_REFRESH_INTERVAL = if typeof window.callPhantom != undefined then 0 else 1000 * 30
+MIN_PAGE_REFRESH_INTERVAL = if typeof window.callPhantom isnt "undefined" then 1000 else 1000 * 30
 
 refreshTimeout = null
+lastUpdated = Date.now()
+
 
 $(document).ready () ->
 
-  PUBNUB.subscribe {
-
-    channel  : "hotfix_refresh",
-
-    connect  : () ->
-      if hotfix.onConnect 
-        hotfix.onConnect()
-
-    callback : (payload) ->
-
-      # used primarily for testing
-      if hotfix.onHotFix
-        hotfix.onHotFix payload
+  $hfx = $ "#hotfix"
 
 
-      # stop page refresh incase a hotfix is pushed a few times before the client is ready to refresh
-      clearInterval refreshTimeout
+  host = $hfx.attr("data-host") or $hfx.attr("host") or ""
 
-      # randomize page reload time - we don't want all clients refreshing
-      # at the same time - that would create a sort of DDOS attack ;)
-      # TODO - use micro time for payload delivery to calculate interval AND use
-      # num connections so we can carefuly tell how many users to refresh / second.
-      # Note - MIN_PAGE_REFRESH_INTERVAL is a sanitiy check to make sure the payload interval isn't too small.
-      refreshTimeout = setTimeout refreshPage, Math.random() * Math.max(MIN_PAGE_REFRESH_INTERVAL, payload.interval || 0), payload
-      
-  }
+
+
+  setInterval checkForUpdates, 1000, host
+  checkForUpdates host
+  
+ 
+
+
+
+checkForUpdates = (host) ->
+
+  $.getJSON("#{host}/hotfix/info.json?callback=?").success (resp) ->
+
+    result = resp.result
+
+    
+    if result.updatedAt > lastUpdated
+      lastUpdated = result.updatedAt
+      refreshPage result
+
 
 
 
@@ -90,7 +91,7 @@ showMessage = (data) ->
 
   # place the message off-screen so we can add a nice animation
   msg.css({ top: "-100px" })
-  msg.find(".hotfix-message").text data.text
+  msg.find(".hotfix-message").text data.message
 
   # if the message is critical, then do NOT give the option to close the message
   if data.critical
