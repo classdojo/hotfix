@@ -10,7 +10,15 @@ MESSAGE_DISPLAY_TIME       = 1000 * 3
 MIN_PAGE_REFRESH_INTERVAL = if (typeof window.callPhantom isnt "undefined" or window.debugHotfix) then 1000 else 1000 * 30
 
 refreshTimeout = null
-lastUpdated = Date.now()
+
+getDateNow = () ->
+  if not Date.now
+    return new Date().valueOf()
+
+  return Date.now()
+
+
+lastUpdated = getDateNow()
 
 
 $(document).ready () ->
@@ -18,8 +26,7 @@ $(document).ready () ->
   $hfx = $ "#hotfix"
 
 
-  host = $hfx.attr("data-host") or $hfx.attr("host") or ""
-
+  host = $hfx.attr("data-host") or $hfx.attr("host")
 
 
   setInterval checkForUpdates, MIN_PAGE_REFRESH_INTERVAL, host
@@ -31,14 +38,16 @@ $(document).ready () ->
 
 checkForUpdates = (host) ->
 
-  $.getJSON("#{host}/hotfix/info.json?callback=?").success (resp) ->
+
+  $.getJSON("#{host}/hotfix/info.json?callback=?").success((resp) ->
 
     result = resp.result
-
     
     if result.updatedAt > lastUpdated
       lastUpdated = result.updatedAt
       refreshPage result
+  ).error (err) ->
+    alert err
 
 
 
@@ -48,6 +57,7 @@ checkForUpdates = (host) ->
 ###
 
 refreshPage = (payload) ->
+
 
   # used primarily for testing
   if hotfix.onDisplayMessage
