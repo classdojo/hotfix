@@ -7,7 +7,7 @@ hotfix = window.hotfix = {}
 MESSAGE_DISPLAY_TIME       = 1000 * 3
 
 # sanity check IF phantom is not present
-MIN_PAGE_REFRESH_INTERVAL = if typeof window.callPhantom isnt "undefined" then 1000 else 1000 * 30
+MIN_PAGE_REFRESH_INTERVAL = if (typeof window.callPhantom isnt "undefined" or window.debugHotfix) then 1000 else 1000 * 30
 
 refreshTimeout = null
 lastUpdated = Date.now()
