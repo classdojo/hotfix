@@ -18,7 +18,7 @@ getDateNow = () ->
   return Date.now()
 
 
-lastUpdated = getDateNow()
+lastUpdated = Number(getDateNow())
 
 
 $(document).ready () ->
@@ -26,28 +26,37 @@ $(document).ready () ->
   $hfx = $ "#hotfix"
 
 
-  host = $hfx.attr("data-host") or $hfx.attr("host")
+  host = $hfx.attr("data-host") or $hfx.attr("host") or "" # or window.location.protocol + "//" + window.location.host
+
+  ## `alert host
 
 
-  setInterval checkForUpdates, MIN_PAGE_REFRESH_INTERVAL, host
-  checkForUpdates host
+  checkForUpdates = () ->
+    $.ajax({
+      type: "GET",
+      url: "#{host}/hotfix/info.json?r="+getDateNow(),
+      dataType: "json",
+      jsonp: true,
+      success: (resp) ->
+
+        result = resp.result
+
+        if result.updatedAt > lastUpdated
+          lastUpdated = result.updatedAt
+          refreshPage result
+      error: (err) ->
+        # alert err
+    })
+
+
+  setInterval checkForUpdates, MIN_PAGE_REFRESH_INTERVAL
+  checkForUpdates()
   
  
 
 
 
-checkForUpdates = (host) ->
 
-
-  $.getJSON("#{host}/hotfix/info.json?callback=?").success((resp) ->
-
-    result = resp.result
-    
-    if result.updatedAt > lastUpdated
-      lastUpdated = result.updatedAt
-      refreshPage result
-  ).error (err) ->
-    alert err
 
 
 
@@ -57,7 +66,6 @@ checkForUpdates = (host) ->
 ###
 
 refreshPage = (payload) ->
-
 
   # used primarily for testing
   if hotfix.onDisplayMessage
